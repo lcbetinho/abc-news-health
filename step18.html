@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz – Etapa 18</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: #f2f2f2;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+    .logo {
+      margin-bottom: 16px;
+      max-width: 200px;
+      height: auto;
+    }
+    h2 {
+      font-size: 22px;
+      line-height: 1.3;
+      margin: 0 0 8px;
+    }
+    h2 .highlight { color: #31c447; }
+    .progress-text {
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 4px;
+    }
+    .loading-bar {
+      position: relative;
+      width: 100%;
+      height: 12px;
+      background: #e0e0e0;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .loading-fill {
+      width: 0%;
+      height: 100%;
+      background: #31c447;
+      transition: width 0.1s linear;
+    }
+    .percent-label {
+      position: absolute;
+      top: -22px;
+      right: 0;
+      font-size: 14px;
+      color: #333;
+    }
+    .slideshow {
+      position: relative;
+      width: 100%;
+      height: auto;
+      margin-bottom: 12px;
+    }
+    .slideshow img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: none;
+      object-fit: cover;
+    }
+    .slideshow img.active {
+      display: block;
+    }
+    .dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: #ddd;
+      border-radius: 50%;
+    }
+    .dot.active {
+      background: #31c447;
+    }
+    .caption {
+      font-size: 14px;
+      color: #555;
+      font-style: italic;
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="assets/images/logo.png" alt="Mounjaro de Pobre" class="logo" />
+
+    <h2>
+      Aguarde enquanto preparamos o<br/>
+      <span class="highlight">Mounjaro de Pobre</span>……
+    </h2>
+    <p class="progress-text">Carregando...</p>
+
+    <div class="loading-bar">
+      <div class="loading-fill" id="loadingFill"></div>
+      <div class="percent-label" id="percentLabel">0%</div>
+    </div>
+
+    <!-- Slideshow de 4 imagens -->
+    <div class="slideshow">
+      <img src="assets/images/transform1.jpg" class="active" alt="Transformação 1" />
+      <img src="assets/images/transform2.jpg" alt="Transformação 2" />
+      <img src="assets/images/transform3.jpg" alt="Transformação 3" />
+      <img src="assets/images/transform4.jpg" alt="Transformação 4" />
+    </div>
+
+    <div class="dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+
+    <p class="caption">
+      "Transformações reais com Mounjaro de Pobre. Você também pode conseguir!"
+    </p>
+  </div>
+
+  <script>
+    // progress bar
+    const fill = document.getElementById('loadingFill');
+    const label = document.getElementById('percentLabel');
+    let progress = 0;
+    const duration = 8000;      // 8 segundos total
+    const interval = 100;       // atualiza a cada 0.1s
+    const step = 100 / (duration / interval);
+
+    const progressTimer = setInterval(() => {
+      progress = Math.min(progress + step, 100);
+      fill.style.width = progress + '%';
+      label.textContent = Math.floor(progress) + '%';
+      if (progress >= 100) {
+        clearInterval(progressTimer);
+        clearInterval(slideTimer);
+        window.location.href = 'step19.html';
+      }
+    }, interval);
+
+    // slideshow
+    const slides = document.querySelectorAll('.slideshow img');
+    const dots = document.querySelectorAll('.dot');
+    let current = 0;
+    function showSlide(i) {
+      slides.forEach((img, idx) => {
+        img.classList.toggle('active', idx === i);
+        dots[idx].classList.toggle('active', idx === i);
+      });
+    }
+    const slideTimer = setInterval(() => {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+    }, duration / slides.length);  // 2000ms para cada imagem
+  </script>
+</body>
+</html>

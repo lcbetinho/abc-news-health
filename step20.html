@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz – Etapa 20</title>
+  <style>
+    body { margin:0; font-family:"Helvetica Neue",Arial,sans-serif; background:#f2f2f2; color:#333; }
+    .container { max-width:600px; margin:40px auto; padding:0 20px; }
+    .logo { display:block; margin:0 auto 16px; max-width:200px; }
+    .progress-bar { width:100%; height:6px; background:#e0e0e0; border-radius:3px; overflow:hidden; margin-bottom:20px; }
+    .progress-bar .fill { width:90.909%; height:100%; background:#31c447; }
+    h2 { font-size:22px; text-align:center; margin:0 0 8px; }
+    h2 .highlight { color:#31c447; }
+    .subtitle { font-size:14px; text-align:center; color:#555; margin-bottom:24px; }
+    .options { display:flex; gap:16px; justify-content:center; }
+    .option { flex:1; background:#fff; border:1px solid #ddd; border-radius:8px; overflow:hidden; cursor:pointer; transition:transform .2s, box-shadow .2s; text-align:center; }
+    .option:hover { transform:scale(1.02); box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+    .option img { width:100%; height:auto; display:block; }
+    .option-label { padding:12px 8px; font-size:16px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="assets/images/logo.png" alt="Mounjaro de Pobre" class="logo">
+    <div class="progress-bar"><div class="fill"></div></div>
+    <h2>Qual o <span class="highlight">corpo dos sonhos</span>?</h2>
+    <p class="subtitle">Escolha a opção abaixo:</p>
+    <div class="options">
+      <div class="option" onclick="selectOption('Em forma')">
+        <img src="assets/images/sonho1.jpg" alt="Em forma">
+        <div class="option-label">Em forma</div>
+      </div>
+      <div class="option" onclick="selectOption('Natural')">
+        <img src="assets/images/sonho2.jpg" alt="Natural">
+        <div class="option-label">Natural</div>
+      </div>
+    </div>
+  </div>
+  <script>
+    function selectOption(choice) {
+      localStorage.setItem('corpoSonho', choice);
+      window.location.href = 'step21.html';
+    }
+  </script>
+</body>
+</html>

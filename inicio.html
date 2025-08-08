@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ritual de 7 Segundos</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background-color: #f2f2f2;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .urgente {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      color: #e74c3c;
+      font-weight: bold;
+    }
+    .urgente .dot {
+      width: 8px;
+      height: 8px;
+      background-color: #e74c3c;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .date {
+      font-size: 12px;
+      color: #999;
+    }
+    .divider {
+      border: 0;
+      border-top: 2px solid #e74c3c;
+      margin: 0 0 20px;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      padding: 20px;
+    }
+    .tags {
+      margin-bottom: 12px;
+    }
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 12px;
+      text-transform: uppercase;
+      margin-right: 8px;
+      color: #fff;
+    }
+    .tag.saude { background-color: #e74c3c; }
+    .tag.descoberta { background-color: #3498db; }
+    h1 {
+      font-size: 24px;
+      line-height: 1.3;
+      margin: 0 0 12px;
+    }
+    .subtitle {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 0 0 20px;
+      color: #555;
+    }
+    .author {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .author + .author-role {
+      font-size: 13px;
+      font-weight: normal;
+      color: #777;
+      margin-bottom: 20px;
+    }
+    .video-wrapper {
+      margin-bottom: 20px;
+    }
+    #cta-button {
+      display: none;
+      margin: 0 auto;
+      padding: 16px 32px;
+      font-size: 18px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #fff;
+      background-color: #31c447;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: opacity 0.3s;
+      opacity: 0;
+    }
+    #cta-button.show {
+      display: block;
+      opacity: 1;
+    }
+    .disclaimer {
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+      margin-top: 12px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="urgente">
+        <span class="dot"></span>
+        URGENTE
+      </div>
+      <div class="date" id="current-date"></div>
+    </header>
+    <hr class="divider" />
+
+    <div class="card">
+      <div class="tags">
+        <span class="tag saude">Saúde</span>
+        <span class="tag descoberta">Descoberta</span>
+      </div>
+
+      <h1>Ritual de 7 Segundos Pela Manhã Derrete Até 5kg de Gordura Abdominal Por Semana</h1>
+      <p class="subtitle">
+        Estudo descobre "hormônio assassino de gordura" adormecido em 93% das mulheres acima de 35 anos! 
+        Assista ao vídeo e descubra como religar esse hormônio com uma receita simples e barata.
+      </p>
+
+      <div class="author">Fabiana Oliveira</div>
+      <div class="author-role">Especialista em Emagrecimento Natural</div>
+
+      <div class="video-wrapper">
+        <!-- Player Vturb inserido aqui -->
+        <vturb-smartplayer
+          id="vid-689557bbcaaf3b79e000335f"
+          style="display: block; margin: 0 auto; width: 100%; max-width: 400px;">
+        </vturb-smartplayer>
+        <script type="text/javascript">
+          var s = document.createElement("script");
+          s.src = "https://scripts.converteai.net/761cd9ca-39b4-4739-8155-9dffeddad20c/players/689557bbcaaf3b79e000335f/v4/player.js";
+          s.async = true;
+          document.head.appendChild(s);
+        </script>
+      </div>
+
+      <button id="cta-button" onclick="location.href='step2.html'">Quero a Receita</button>
+      <p class="disclaimer">
+        Assista até o final para descobrir os 4 ingredientes da receita do "Monjaro de Pobre"
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Preenche a data atual em pt-BR
+    const dateEl = document.getElementById('current-date');
+    const now = new Date();
+    const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+    let text = now.toLocaleDateString('pt-BR', options);
+    text = text.charAt(0).toUpperCase() + text.slice(1);
+    dateEl.textContent = text;
+
+    // Exibe o botão após 213 000 ms (3min33s)
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('cta-button').classList.add('show');
+      }, 213000);
+    });
+  </script>
+</body>
+</html>

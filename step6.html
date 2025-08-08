@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz – Etapa 6</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background-color: #f2f2f2;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      padding: 20px;
+    }
+    /* Barra de progresso */
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background-color: #e0e0e0;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .progress-fill {
+      width: 27.273%; /* 6/22 etapas */
+      height: 100%;
+      background-color: #31c447;
+    }
+    /* Logo */
+    .logo {
+      display: block;
+      margin: 0 auto 24px;
+      max-width: 200px;
+      height: auto;
+    }
+    /* Pergunta */
+    h2 {
+      font-size: 22px;
+      line-height: 1.3;
+      text-align: center;
+      margin: 0 0 16px;
+    }
+    h2 .highlight {
+      color: #31c447;
+    }
+    /* Opções */
+    .options {
+      display: flex;
+      flex-direction: column;
+    }
+    .option {
+      display: flex;
+      align-items: center;
+      padding: 14px 20px;
+      margin-bottom: 12px;
+      background-color: #eaf8ed;
+      border: 1px solid #c6ead2;
+      border-radius: 8px;
+      font-size: 16px;
+      color: #333;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.2s;
+      transform: scale(1);
+      text-align: left;
+    }
+    .option:hover {
+      background-color: #d4f0d0;
+      transform: scale(1.02);
+    }
+    .option .emoji {
+      font-size: 24px;
+      margin-right: 16px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <!-- Barra de progresso -->
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+
+      <!-- Logo -->
+      <img src="assets/images/logo.png" alt="Mounjaro de Pobre" class="logo" />
+
+      <!-- Pergunta -->
+      <h2>
+        Como o seu peso<br/>
+        <span class="highlight">impacta sua vida?</span>
+      </h2>
+
+      <!-- Opções -->
+      <div class="options">
+        <button class="option" onclick="selectOption('Evito tirar fotos porque tenho vergonha')">
+          <span class="emoji">📷</span>
+          Evito tirar fotos porque tenho vergonha
+        </button>
+        <button class="option" onclick="selectOption('Meu parceiro não me olha mais com desejo como antes')">
+          <span class="emoji">💔</span>
+          Meu parceiro não me olha mais com desejo como antes
+        </button>
+        <button class="option" onclick="selectOption('Evito encontros sociais porque não me sinto bem comigo mesma')">
+          <span class="emoji">😔</span>
+          Evito encontros sociais porque não me sinto bem comigo mesma
+        </button>
+        <button class="option" onclick="selectOption('Nenhuma das opções')">
+          <span class="emoji">👋</span>
+          Nenhuma das opções
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function selectOption(answer) {
+      // Salva a resposta para personalização
+      localStorage.setItem('pesoImpacto', answer);
+      // Navega para a próxima etapa
+      window.location.href = 'step7.html';
+    }
+  </script>
+</body>
+</html>

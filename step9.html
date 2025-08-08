@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz – Etapa 9</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background-color: #f2f2f2;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      padding: 20px;
+      text-align: center;
+    }
+    /* Barra de progresso */
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background-color: #e0e0e0;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .progress-fill {
+      width: 40.909%; /* 9/22 etapas */
+      height: 100%;
+      background-color: #31c447;
+    }
+    /* Logo */
+    .logo {
+      display: block;
+      margin: 0 auto 24px;
+      max-width: 200px;
+      height: auto;
+    }
+    /* Títulos */
+    .small-title {
+      font-size: 14px;
+      color: #555;
+      margin: 0;
+    }
+    .small-title .highlight-green {
+      color: #31c447;
+      font-weight: bold;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 4px 0 24px;
+      font-weight: normal;
+    }
+    /* Imagem do protocolo */
+    .protocol-img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 24px;
+      border-radius: 8px;
+    }
+    /* Texto explicativo */
+    .explain {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+    .explain .highlight-green {
+      color: #31c447;
+      font-weight: bold;
+    }
+    .explain .highlight-red {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+    /* Botão continuar */
+    #continue-button {
+      display: inline-block;
+      width: 100%;
+      padding: 16px 0;
+      font-size: 18px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #fff;
+      background-color: #31c447;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      text-decoration: none;
+    }
+    #continue-button:hover {
+      background-color: #28a03a;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+
+    <div class="card">
+      <!-- Logo -->
+      <img src="assets/images/logo.png" alt="Mounjaro de Pobre" class="logo" />
+
+      <!-- Subtítulo -->
+      <p class="small-title">
+        Nosso protocolo <span class="highlight-green">Resolve isso para você!</span>
+      </p>
+
+      <!-- Título principal -->
+      <h2>Como funciona o Mounjaro de Pobre</h2>
+
+      <!-- Imagem ilustrativa -->
+      <img 
+        src="assets/images/protocol.png" 
+        alt="Como funciona o Mounjaro de Pobre" 
+        class="protocol-img" 
+      />
+
+      <!-- Texto explicativo -->
+      <p class="explain">
+        <span class="highlight-green">Mounjaro de pobre</span> age enquanto você dorme, 
+        <span class="highlight-red">queimando gordura</span> de forma 
+        <span class="highlight-green">acelerada!</span>
+      </p>
+
+      <!-- Botão continuar -->
+      <a href="step10.html" id="continue-button">Continuar</a>
+    </div>
+  </div>
+</body>
+</html>

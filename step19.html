@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz – Etapa 19</title>
+  <style>
+    body { margin: 0; font-family: "Helvetica Neue", Arial, sans-serif; background: #f2f2f2; color: #333; }
+    .container { max-width: 600px; margin: 40px auto; padding: 0 20px; }
+    .logo { display: block; margin: 0 auto 16px; max-width: 200px; height: auto; }
+    .progress-bar { width: 100%; height: 6px; background: #e0e0e0; border-radius: 3px; overflow: hidden; margin-bottom: 20px; }
+    .progress-bar .fill { width: 86.36%; height: 100%; background: #31c447; }
+    .main-title { text-align: center; font-size: 18px; line-height: 1.4; margin-bottom: 20px; }
+    .main-title .highlight { color: #31c447; }
+    .card { background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); padding: 20px; margin-bottom: 20px; }
+    .card h3 { margin: 0 0 12px; font-size: 18px; font-weight: bold; text-align: center; }
+    .bmi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 14px; }
+    .bmi-header .value { font-weight: normal; }
+    .bmi-header .zone { display: flex; align-items: center; font-weight: bold; }
+    .bmi-header .zone.alert { color: #e67e22; }
+    .bmi-header .zone.danger { color: #c0392b; }
+    .bmi-header .zone .icon { margin-right: 4px; }
+    .bmi-bar { position: relative; display: flex; height: 12px; border-radius: 6px; overflow: hidden; margin-bottom: 8px; }
+    .bmi-bar .segment { flex: 1; }
+    .bmi-bar .under  { background: #add8ff; }
+    .bmi-bar .normal { background: #c8f7c5; }
+    .bmi-bar .over   { background: #fef5b7; }
+    .bmi-bar .obese  { background: #f7c4c4; }
+    .marker { position: absolute; top: -28px; left: 0; transform: translateX(-50%); display: flex; align-items: center; flex-direction: column; }
+    .marker .tooltip { background: #333; color: #fff; padding: 4px 8px; font-size: 12px; border-radius: 4px; white-space: nowrap; margin-bottom: 4px; }
+    .marker .tooltip::after { content: ""; position: absolute; bottom: -6px; left: 50%; transform: translateX(-50%); border-width: 6px 6px 0 6px; border-style: solid; border-color: #333 transparent transparent transparent; }
+    .marker .pointer { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid #333; }
+    .categories { display: flex; justify-content: space-between; font-size: 12px; color: #555; margin-bottom: 20px; }
+    .categories div { flex: 1; text-align: center; }
+    .categories div:not(:last-child) { margin-right: 4px; }
+    .info-yellow { background: #fcf3cf; border: 1px solid #f9e79f; border-radius: 6px; padding: 12px; margin-bottom: 16px; }
+    .info-yellow .header { font-weight: bold; }
+    .info-yellow p { margin: 8px 0 0; }
+    .info-red { background: #fadbd8; border: 1px solid #f5b7b1; border-radius: 6px; padding: 12px; margin-bottom: 16px; }
+    .info-red .header { font-weight: bold; }
+    .info-red ul { margin: 8px 0 0 16px; padding: 0; list-style: none; }
+    .info-red li { margin-bottom: 6px; }
+    .info-red li::before { content: "❌"; margin-right: 6px; }
+    .info-blue { background: #d6eaf8; border: 1px solid #aed6f1; border-radius: 6px; padding: 12px; margin-bottom: 16px; }
+    .info-blue .header { font-weight: bold; margin-bottom: 8px; }
+    .info-blue p { margin: 0 0 8px; }
+    .info-blue p.check { display: flex; align-items: center; }
+    .info-blue p.check::before { content: "✔️"; margin-right: 6px; }
+    .subheading { text-align: center; font-size: 16px; margin: 20px 0 12px; font-weight: bold; }
+    .transform-img { width: 100%; border-radius: 8px; margin-bottom: 20px; }
+    #next-button { display: block; width: 100%; padding: 16px 0; background: #31c447; color: #fff; border: none; border-radius: 30px; font-size: 18px; font-weight: bold; text-transform: uppercase; cursor: pointer; }
+    #next-button:hover { background: #28a03a; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="assets/images/logo.png" alt="Mounjaro de Pobre" class="logo">
+    <div class="progress-bar"><div class="fill"></div></div>
+
+    <p class="main-title">Veja como o <span class="highlight">Mounjaro de Pobre</span><br>está transformando vidas e veja os resultados da nossa comunidade!</p>
+
+    <div class="card">
+      <h3>Índice de Massa Corporal (IMC)</h3>
+      <div class="bmi-header">
+        <div class="value">Seu IMC é <strong id="bmiValue">--</strong></div>
+        <div id="bmiZone" class="zone"></div>
+      </div>
+      <div class="bmi-bar" id="bmiBar">
+        <div class="segment under"></div>
+        <div class="segment normal"></div>
+        <div class="segment over"></div>
+        <div class="segment obese"></div>
+        <div class="marker" id="bmiMarker">
+          <div class="tooltip">Você está aqui!</div>
+          <div class="pointer"></div>
+        </div>
+      </div>
+      <div class="categories">
+        <div>Abaixo do Peso</div>
+        <div>Normal</div>
+        <div>Sobrepeso</div>
+        <div>Obesidade</div>
+      </div>
+    </div>
+
+    <div class="info-yellow">
+      <div class="header">⚠️ Seu metabolismo pode estar te sabotando sem que você perceba!</div>
+      <p>Mesmo estando no peso normal, seu corpo pode estar retendo toxinas e trabalhando de forma mais lenta, dificultando a queima de gordura e deixando você com menos energia.</p>
+    </div>
+
+    <div class="info-red">
+      <div class="header">❌ Alguns sinais de alerta:</div>
+      <ul>
+        <li>Metabolismo lento e dificuldade para emagrecer mesmo comendo pouco.</li>
+        <li>Cansaço constante e sensação de inchaço.</li>
+        <li>Acúmulo de gordura em áreas específicas do corpo, principalmente na barriga.</li>
+      </ul>
+    </div>
+
+    <div class="info-blue">
+      <div class="header">✨ Com o Mounjaro de Pobre, seu corpo acelera a queima de gordura naturalmente!</div>
+      <p>A combinação ideal de ingredientes pode ativar seu metabolismo, reduzir a retenção de líquidos e aumentar sua disposição.</p>
+      <p class="check">Descubra agora como o Mounjaro de Pobre pode transformar seu corpo!</p>
+    </div>
+
+    <p class="subheading">Veja a transformação da Silvia!</p>
+    <img src="assets/images/silvia.jpg" alt="Transformação da Silvia" class="transform-img">
+
+    <button id="next-button" onclick="location.href='step20.html'">Próxima Etapa</button>
+  </div>
+
+  <script>
+    function calcBMI(w, wu, h, hu) {
+      const kg = wu === 'kg' ? parseFloat(w) : parseFloat(w) * 0.453592;
+      const m  = hu === 'cm' ? parseFloat(h)/100 : (parseFloat(h)*2.54)/100;
+      return kg/(m*m);
+    }
+    window.addEventListener('load', () => {
+      const w  = localStorage.getItem('pesoAtual')   || '70';
+      const wu = localStorage.getItem('pesoUnit')    || 'kg';
+      const h  = localStorage.getItem('alturaAtual') || '170';
+      const hu = localStorage.getItem('alturaUnit')  || 'cm';
+      const bmi = calcBMI(w, wu, h, hu);
+      document.getElementById('bmiValue').textContent = bmi.toFixed(2);
+
+      const zoneEl = document.getElementById('bmiZone');
+      if (bmi < 18.5) {
+        zoneEl.textContent = 'Abaixo do Peso';
+      } else if (bmi < 25) {
+        zoneEl.textContent = 'Normal';
+      } else if (bmi < 30) {
+        zoneEl.classList.add('alert');
+        zoneEl.innerHTML = '<span class="icon">⚠️</span>Zona de Alerta';
+      } else {
+        zoneEl.classList.add('danger');
+        zoneEl.innerHTML = '<span class="icon">❗</span>Perigo';
+      }
+
+      const pct = Math.min((bmi/40)*100,100);
+      document.getElementById('bmiMarker').style.left = pct + '%';
+    });
+  </script>
+</body>
+</html>
