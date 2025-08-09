@@ -110,20 +110,64 @@
 
       <!-- Opções -->
       <div class="options">
-        <button class="option" onclick="location.href='step4.html'">
+        <button class="option" onclick="location.href='step4.html' + location.search">
           <img src="assets/images/regular.png" alt="Regular" />
           Regular
         </button>
-        <button class="option" onclick="location.href='step4.html'">
+        <button class="option" onclick="location.href='step4.html' + location.search">
           <img src="assets/images/flacido.png" alt="Flácido" />
           Flácido
         </button>
-        <button class="option" onclick="location.href='step4.html'">
+        <button class="option" onclick="location.href='step4.html' + location.search">
           <img src="assets/images/sobrepeso.png" alt="Sobrepeso" />
           Sobrepeso
         </button>
       </div>
     </div>
   </div>
+
+  <script>
+    (function () {
+      // 1) Persist incoming query params (UTMs, fbclid/gclid, subids, etc.) in this session
+      const incoming = new URLSearchParams(window.location.search);
+      if ([...incoming].length) {
+        const saved = new URLSearchParams(sessionStorage.getItem('persistQS') || '');
+        incoming.forEach((v, k) => saved.set(k, v));
+        sessionStorage.setItem('persistQS', saved.toString());
+      }
+
+      // 2) Merge saved params into current URL (no reload) so rastreadores veem tudo
+      const savedStr = sessionStorage.getItem('persistQS');
+      if (savedStr) {
+        const current = new URL(location.href);
+        const merged = new URLSearchParams(savedStr);
+        const own = new URLSearchParams(current.search);
+        own.forEach((v, k) => merged.set(k, v)); // params da página têm prioridade
+        const final = merged.toString();
+        if (final !== own.toString()) {
+          history.replaceState({}, '', current.pathname + (final ? '?' + final : '') + current.hash);
+        }
+      }
+
+      // 3) Atualizar links internos (se houver) para levar os params adiante
+      function mergeLink(href) {
+        try {
+          const u = new URL(href, location.href);
+          if (u.origin !== location.origin) return href;
+          const base = new URLSearchParams(sessionStorage.getItem('persistQS') || '');
+          const own = new URLSearchParams(u.search);
+          own.forEach((v, k) => base.set(k, v));
+          u.search = base.toString();
+          return u.pathname + (u.search ? '?' + u.search : '') + u.hash;
+        } catch (e) { return href; }
+      }
+      document.querySelectorAll('a[href]').forEach(a => {
+        const href = a.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+        a.setAttribute('href', mergeLink(href));
+      });
+    })();
+  </script>
+
 </body>
 </html>

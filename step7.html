@@ -140,8 +140,52 @@
   <script>
     function selectAnswer(value) {
       localStorage.setItem('etapa7Answer', value);
-      window.location.href = 'step8.html';
+      window.location.href = 'step8.html' + window.location.search;
     }
   </script>
+
+  <script>
+    (function () {
+      // Persist incoming query params (UTMs, fbclid/gclid, subids, etc.) for this session
+      const incoming = new URLSearchParams(window.location.search);
+      if ([...incoming].length) {
+        const saved = new URLSearchParams(sessionStorage.getItem('persistQS') || '');
+        incoming.forEach((v, k) => saved.set(k, v));
+        sessionStorage.setItem('persistQS', saved.toString());
+      }
+
+      // Merge saved params into current URL (no reload)
+      const savedStr = sessionStorage.getItem('persistQS');
+      if (savedStr) {
+        const current = new URL(location.href);
+        const merged = new URLSearchParams(savedStr);
+        const own = new URLSearchParams(current.search);
+        own.forEach((v, k) => merged.set(k, v));
+        const final = merged.toString();
+        if (final !== own.toString()) {
+          history.replaceState({}, '', current.pathname + (final ? '?' + final : '') + current.hash);
+        }
+      }
+
+      // Update internal anchors, if any appear
+      function mergeLink(href) {
+        try {
+          const u = new URL(href, location.href);
+          if (u.origin !== location.origin) return href;
+          const base = new URLSearchParams(sessionStorage.getItem('persistQS') || '');
+          const own = new URLSearchParams(u.search);
+          own.forEach((v, k) => base.set(k, v));
+          u.search = base.toString();
+          return u.pathname + (u.search ? '?' + u.search : '') + u.hash;
+        } catch (e) { return href; }
+      }
+      document.querySelectorAll('a[href]').forEach(a => {
+        const href = a.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+        a.setAttribute('href', mergeLink(href));
+      });
+    })();
+  </script>
+
 </body>
 </html>

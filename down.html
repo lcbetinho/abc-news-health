@@ -216,5 +216,58 @@
       }, 1000);
     })();
   </script>
+
+  <script>
+    (function () {
+      // Allowlist: send params to Kiwify checkout domains too
+      const ALLOW_EXTERNAL = new Set(["pay.kiwify.com.br","app.kiwify.com.br","kiwify.com.br"]);
+
+      // 1) Persist incoming query params from this session (UTMs, fbclid/gclid, subids, etc.)
+      const incoming = new URLSearchParams(window.location.search);
+      if ([...incoming].length) {
+        const saved = new URLSearchParams(sessionStorage.getItem('persistQS') || '');
+        incoming.forEach((v, k) => saved.set(k, v));
+        sessionStorage.setItem('persistQS', saved.toString());
+      }
+
+      // 2) Merge saved params into current URL (no reload) so trackers pick them up
+      const savedStr = sessionStorage.getItem('persistQS');
+      if (savedStr) {
+        const current = new URL(location.href);
+        const merged = new URLSearchParams(savedStr);
+        const own = new URLSearchParams(current.search);
+        own.forEach((v, k) => merged.set(k, v)); // page params override saved
+        const final = merged.toString();
+        if (final !== own.toString()) {
+          history.replaceState({}, '', current.pathname + (final ? '?' + final : '') + current.hash);
+        }
+      }
+
+      // 3) Merge params into internal links and allowlisted externals (Kiwify)
+      function mergeLink(href) {
+        try {
+          const u = new URL(href, location.href);
+          const isInternal = u.origin === location.origin;
+          const isAllowedExternal = ALLOW_EXTERNAL.has(u.hostname);
+          if (!isInternal && !isAllowedExternal) return href;
+
+          const base = new URLSearchParams(sessionStorage.getItem('persistQS') || '');
+          const own = new URLSearchParams(u.search);
+          own.forEach((v, k) => base.set(k, v)); // existing link params win
+          u.search = base.toString();
+
+          return isInternal ? (u.pathname + (u.search ? '?' + u.search : '') + u.hash) : u.toString();
+        } catch (e) { return href; }
+      }
+
+      // 4) Update ALL anchors (covers multiple CTAs on this long page)
+      document.querySelectorAll('a[href]').forEach(a => {
+        const href = a.getAttribute('href');
+        if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+        a.setAttribute('href', mergeLink(href));
+      });
+    })();
+  </script>
+
 </body>
 </html>
