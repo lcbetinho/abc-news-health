@@ -174,7 +174,7 @@
         </script>
       </div>
 
-      <a id="cta-button" href="step2.html" role="button">Quero a Receita</a>
+      <button id="cta-button" onclick="location.href='step2.html' + location.search">Quero a Receita</button>
       <p class="disclaimer">
         Assista até o final para descobrir os 4 ingredientes da receita do "Monjaro de Pobre"
       </p>
@@ -194,7 +194,7 @@
     window.addEventListener('load', function() {
       setTimeout(function() {
         document.getElementById('cta-button').classList.add('show');
-      }, 000);
+      }, 213000);
     });
   </script>
 
@@ -208,13 +208,13 @@
         sessionStorage.setItem('persistQS', saved.toString());
       }
 
-      // Merge saved params into current URL (without reload) so analytics see full set
+      // Merge saved params into current URL (without reload)
       const savedStr = sessionStorage.getItem('persistQS');
       if (savedStr) {
         const current = new URL(location.href);
         const merged = new URLSearchParams(savedStr);
         const own = new URLSearchParams(current.search);
-        own.forEach((v, k) => merged.set(k, v)); // link/page params override saved
+        own.forEach((v, k) => merged.set(k, v)); // page params override saved
         const final = merged.toString();
         if (final !== own.toString()) {
           history.replaceState({}, '', current.pathname + (final ? '?' + final : '') + current.hash);
@@ -224,19 +224,17 @@
       // Helper to merge saved params into an internal link
       function mergeLink(href) {
         try {
-          const u = new URL(href, location.href); // resolve relative paths correctly (incl. GitHub Pages)
-          if (u.origin !== location.origin) return href; // leave external links alone
+          const u = new URL(href, location.href);
+          if (u.origin !== location.origin) return href;
           const base = new URLSearchParams(sessionStorage.getItem('persistQS') || '');
           const own = new URLSearchParams(u.search);
-          own.forEach((v, k) => base.set(k, v)); // params already on the link win
+          own.forEach((v, k) => base.set(k, v));
           u.search = base.toString();
           return u.pathname + (u.search ? '?' + u.search : '') + u.hash;
-        } catch (e) {
-          return href;
-        }
+        } catch (e) { return href; }
       }
 
-      // Update all internal anchors to carry the params forward
+      // Update all internal anchors
       document.querySelectorAll('a[href]').forEach(a => {
         const href = a.getAttribute('href');
         if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
