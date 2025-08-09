@@ -1,377 +1,438 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Quiz – Página Final</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clone da Página</title>
   <style>
-    body { margin:0; font-family:"Helvetica Neue",Arial,sans-serif; background:#f2f2f2; color:#333; }
-    .container { max-width:600px; margin:40px auto; padding:0 20px; }
-    .logo { display:block; margin:0 auto 16px; max-width:200px; }
-    .progress-bar { width:100%; height:8px; background:#e0e0e0; border-radius:4px; overflow:hidden; margin-bottom:24px; }
-    .progress-bar .fill { width:95.45%; height:100%; background:#31c447; }
+    :root{
+      --green:#24B36B;
+      --green-700:#2E7D32;
+      --green-600:#0E6E46;
+      --green-500:#4CAF50;
+      --green-100:#E8F5E9;
+      --green-050:#F3FBF6;
+      --red:#E53935;
+      --gray-900:#111;
+      --gray-800:#2b2b2b;
+      --gray-700:#555;
+      --gray-600:#666;
+      --gray-500:#777;
+      --gray-400:#8A8A8A;
+      --gray-300:#e0e0e0;
+      --gray-200:#eee;
+      --accent:#FF6A00;
+      --star:#FFC107;
 
-    /* Section 1 */
-    .title { font-size:24px; font-weight:700; color:#111; text-align:center; margin:0 0 4px; }
-    .subtitle { font-size:16px; color:#777; text-align:center; margin-bottom: 0px; }
-    .video-wrapper { position:relative; width:100%; padding-top:56.25%; margin-bottom:24px;   margin-top: -200px;
-}
-    .video-wrapper > div { position:absolute; top:0; left:0; width:100%; height:100%; }
+      /* caixa Compare */
+      --cmp-bg:#FEF0F0;
+      --cmp-border:#FDC3C4;
+      --cmp-sep:#F7D7D7;
 
-    /* Delayed content */
-    #section2 { display:none; }
+      /* bônus */
+      --bonus-bg:#FFEBD6;
+      --bonus-border:#F6C28B;
+      --bonus-chip-bg:#FFE2C3;
+      --bonus-chip-border:#F4B97A;
+      --bonus-chip-text:#C96A05;
 
-    /* CTA button */
-    .btn-main { display:block; width:100%; padding:16px; background:#31c447; color:#fff; border:none; border-radius:30px; font-size:18px; font-weight:700; text-align:center; text-decoration:none; margin:0 0 24px; transition:background .2s; }
-    .btn-main:hover { background:#28a03a; }
+      /* caixinhas da seção 3 */
+      --feat-border:#E6F3EC;
+      --feat-bg:#ffffff;
+    }
 
-    /* Compare cards */
-    .cards-compare { display:flex; gap:16px; margin-bottom:24px; }
-    .card-compare { flex:1; background:#fff; border:2px solid; border-radius:8px; text-align:center; padding:16px 12px; }
-    .card-compare.red { border-color:#f5c6c6; background:#fde8e8; }
-    .card-compare.green { border-color:#c6f5d1; background:#e8fdef; }
-    .card-compare h4 { font-size:14px; font-weight:700; margin:0 0 8px; padding:4px 0; }
-    .card-compare.red h4 { background:#f5c6c6; color:#a01e1e; }
-    .card-compare.green h4 { background:#c6f5d1; color:#1e7a2e; }
-    .card-compare img { width:100%; border-radius:4px; margin:12px 0; }
-    .card-compare .title { font-weight:700; margin-bottom:4px; }
-    .card-compare.red .title { color:#a01e1e; }
-    .card-compare.green .title { color:#1e7a2e; }
-    .card-compare .subtitle { font-size:14px; color:#666; line-height:1.4; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family: Arial, Helvetica, sans-serif; color:#333; line-height:1.6; background:#fff}
+    .container{width:90%; max-width:980px; margin:0 auto}
+    section{text-align:center}
 
-    /* Analysis */
-    .card-analysis { background:#fff; border-radius:8px; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.05); margin-bottom:24px; }
-    .card-analysis h3 { text-align:center; font-size:18px; margin:0 0 16px; }
-    .bar-label { display:flex; justify-content:space-between; font-size:14px; margin-bottom:6px; }
-    .bar-label .value.red { color:#c0392b; }
-    .bar-label .value.green { color:#27ae60; }
-    .bar { width:100%; height:12px; background:#e0e0e0; border-radius:6px; overflow:hidden; margin-bottom:12px; }
-    .bar.red .fill { width:19%; height:100%; background:#c0392b; }
-    .bar.green .fill { width:100%; height:100%; background:#27ae60; }
-    .small { font-size:13px; color:#333; line-height:1.4; margin-bottom:16px; }
+    /* CTA padrão */
+    .btn-large{
+      display:inline-block; padding:16px 42px;
+      background:var(--green); color:#fff; text-decoration:none;
+      border-radius:32px; font-size:18px; font-weight:800; letter-spacing:.2px;
+      box-shadow:0 10px 25px rgba(36,179,107,.25);
+      transition:transform .08s ease, filter .08s ease;
+      margin: 8px 0 26px;
+    }
+    .btn-wide{display:block; max-width:420px; margin:18px auto 6px}
+    .btn-large:hover{transform:translateY(-1px); filter:brightness(1.03)}
 
-    /* Plan */
-    .card.plan { background:#fff; border-radius:8px; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.05); margin-bottom:40px; }
-    .card.plan h3 { text-align:center; font-size:18px; margin:0 0 12px; }
-    .plan-highlight { font-size:16px; color:#31c447; text-align:center; margin-bottom:12px; }
-    .card.plan p { font-size:14px; text-align:center; margin-bottom:8px; }
-    .plan-header { background:#31c447; color:#fff; padding:8px; border-radius:4px; text-align:center; font-size:16px; margin:16px 0; }
-    .plan-list { list-style:none; padding:0; }
-    .plan-list li { font-size:14px; line-height:1.4; margin-bottom:8px; }
-    .plan-list li::before { content:'✔️'; margin-right:6px; }
-    .plan-list li strong { color:#31c447; }
+    /* ====== SEÇÃO 1 ====== */
+    #sec-1{padding:32px 0 12px}
+    .logo-container img{display:block; margin:0 auto 14px; max-width:220px}
+    .divider{width:100%; height:6px; background:var(--green); border:none; border-radius:6px; margin:10px 0 14px}
+    .title{font-size:24px; font-weight:800; color:#000; margin-bottom:6px; line-height:1.28}
+    .subtitle{font-size:16px; color:#7b8794; margin-bottom:12px}
+    .video-container{margin:0 auto 6px; width:100%; max-width:400px; position:relative!important; z-index:auto!important}
+    vturb-smartplayer{display:block!important; position:static!important; width:100%!important; max-width:400px!important; margin:0 auto!important}
+    .arrow-container img{display:block; margin:0 auto; width:48px}
 
-    /* Bonus */
-    .card.bonus { background:#fcf8e3; border:1px solid #f1c40f; border-radius:8px; padding:20px; margin-bottom:40px; }
-    .card.bonus h3 { text-align:center; font-size:18px; color:#a66311; margin-bottom:8px; }
-    .card.bonus .sub { text-align:center; font-size:14px; color:#777; margin-bottom:16px; }
-    .card.bonus ul { list-style:none; padding:0; margin:0; }
-    .card.bonus ul li { font-size:14px; color:#a66311; line-height:1.4; margin-bottom:6px; }
+    /* ====== SEÇÃO 2 ====== */
+    #sec-2{padding:16px 0 40px; display:none}
 
-    /* Offer image */
-    .card.offer-vertical { background:#fff; border-radius:8px; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.05); text-align:center; margin-bottom:40px; }
-    .card.offer-vertical img { width:100%; border-radius:8px; }
+    .comparison-cards{display:flex; gap:18px; justify-content:center; flex-wrap:wrap; margin: 6px 0 26px}
+    .card{
+      flex:1; max-width:300px; text-align:center; padding:16px;
+      border:2px solid; border-radius:10px; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,.08)
+    }
+    .card--no{border-color:rgba(229,57,53,.25); background:rgba(229,57,53,.04)}
+    .card--yes{border-color:rgba(76,175,80,.25); background:rgba(76,175,80,.05)}
+    .card h3{font-size:14px; font-weight:800; margin-bottom:12px; color:#5f6c72; background:rgba(0,0,0,.04); padding:8px 10px; border-radius:8px}
+    .card--no h3{background:rgba(229,57,53,.1)}
+    .card--yes h3{background:rgba(76,175,80,.12)}
+    .card img{width:100%; height:auto; margin-bottom:12px}
+    .card-title{font-size:16px; font-weight:800; color:var(--red); margin-bottom:4px}
+    .card-title--green{color:var(--green-500)}
+    .card-desc{font-size:14px; color:var(--red)}
+    .card-desc--green{color:var(--green-500)}
 
-    /* Section 6 */
-    .card.cost-compare { background:#fff; border:1px solid #f8d7da; border-radius:8px; padding:20px; margin-bottom:16px; }
-    .card.cost-compare h4 { font-size:16px; color:#a01e1e; margin-bottom:12px; }
-    .card.cost-compare ul { list-style:none; padding:0; margin:0; }
-    .card.cost-compare li { font-size:14px; line-height:1.4; margin-bottom:6px; }
-    .card.cost-compare .cost { float:right; color:#a01e1e; }
-    .card.cost-compare .highlighted { background:#e8fdef; padding:8px; border-radius:4px; }
-    .card.cost-compare .highlighted .green { color:#27ae60; }
-    .btn-main.trust { margin:24px 0; }
-    .icons-trust { display:flex; justify-content:center; gap:24px; margin-bottom:24px; }
-    .icons-trust img { width:32px; height:32px; }
-    .before-after { display:flex; gap:16px; margin-bottom:24px; }
-    .before-after img { width:calc(50% - 8px); border-radius:8px; }
-    .special-offer { background:#fff; border-radius:8px; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.05); text-align:center; margin-bottom:40px; }
-    .special-offer h4 { background:#31c447; color:#fff; padding:12px; border-radius:4px 4px 0 0; margin:0; font-size:16px; }
-    .special-offer .discount { font-size:14px; color:#a01e1e; margin:12px 0; }
-    .special-offer .original-price { text-decoration:line-through; margin-left:6px; font-size:14px; }
-    .special-offer h3 { font-size:48px; color:#31c447; margin:0; }
-    .special-offer .suffix { font-size:14px; color:#777; margin-top:4px; }
+    .metabolism-analysis{
+      background:#fff; padding:22px; border-radius:14px; box-shadow:0 2px 10px rgba(0,0,0,.08);
+      max-width:760px; margin:0 auto; text-align:left
+    }
+    .metabolism-analysis h2{font-size:20px; font-weight:900; color:#000; text-align:center; margin-bottom:16px}
+    .bar-group{display:grid; gap:20px}
+    .label-row{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px}
+    .label-row .label{font-size:15px; font-weight:700}
+    .label-row .pct{font-size:14px; color:#9aa5b1; font-weight:700}
+    .label--red{color:var(--red)}
+    .label--green{color:var(--green-700)}
+    .progress-outer{width:100%; height:16px; background:var(--gray-300); border-radius:9999px; overflow:hidden}
+    .progress-inner{height:100%}
+    .progress-inner.red{background:var(--red)}
+    .progress-inner.green{background:var(--green)}
+    .analysis-text{font-size:14px; color:var(--gray-700); line-height:1.45}
+    .analysis-text.green{color:var(--green-700)}
+
+    /* ====== SEÇÃO 3 ====== */
+    #sec-3{display:none; padding: 8px 0 36px}
+    .plan-card{
+      max-width:760px; margin:0 auto 26px; text-align:left;
+      background:#FAFFFC; border:1px solid #EAF3EE; border-radius:16px;
+      box-shadow:0 1px 0 #ECF4EF, 0 8px 20px rgba(36,179,107,.06); padding:22px 18px 18px;
+    }
+    .plan-title{
+      font-size:26px; font-weight:900; text-align:center; margin-bottom:12px;
+      color:var(--green); line-height:1.25;
+    }
+    .plan-sub--green{font-size:15px; color:var(--green-700); text-align:center; margin-bottom:12px}
+    .plan-sub--dark{font-size:15px; color:var(--gray-900); text-align:center; margin-bottom:16px}
+    .pill{display:inline-block; background:var(--green-100); color:var(--green-700); border-radius:12px; padding:10px 14px; font-weight:800; font-size:14px; margin: 6px 0 14px}
+
+    .features{display:grid; gap:12px; margin-top:4px}
+    .feat{
+      display:grid; grid-template-columns:36px 1fr; gap:12px; align-items:flex-start;
+      padding:14px; border:1px solid var(--feat-border); border-radius:14px; background:var(--feat-bg)
+    }
+    .check{width:26px; height:26px; border-radius:50%; background:var(--green); position:relative; top:3px; box-shadow:0 2px 6px rgba(36,179,107,.25)}
+    .check:after{content:""; position:absolute; left:7px; top:4px; width:8px; height:14px; border:3px solid #fff; border-top:0; border-left:0; transform:rotate(45deg)}
+    .feat-title{font-weight:900; color:var(--green-700); margin:0 0 4px; font-size:16px}
+    .feat-desc{color:#44515a; font-size:14px; line-height:1.5}
+
+    .bonus-head{font-size:18px; font-weight:900; color:#000; text-align:center; margin: 18px 0 8px}
+    .bonus-head .green{color:var(--green-700)}
+    .bonus-note{font-size:12.5px; color:#9aa5b1; text-align:center; margin-bottom:10px; font-style:italic}
+    .bonus-box{background:var(--bonus-bg); border:1px solid var(--bonus-border); border-radius:12px; padding:14px 16px; max-width:760px; margin:0 auto; text-align:left; box-shadow:0 4px 14px rgba(245, 167, 86, .12)}
+    .bonus-chip{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:10px; background:var(--bonus-chip-bg); border:1px solid var(--bonus-chip-border); color:var(--bonus-chip-text); font-weight:900; text-transform:uppercase; letter-spacing:.3px; font-size:14px; margin:0 0 10px 0}
+    .bonus-chip .emoji{font-size:16px; line-height:1}
+    .bonus-list{margin:0; padding:0 4px 0 18px; list-style:disc; list-style-position:outside; color:#222}
+    .bonus-list li{margin:7px 0; font-size:15px; line-height:1.5}
+
+    /* ====== SEÇÃO 4 ====== */
+    #sec-4{display:none; padding: 6px 0 44px}
+    .sec4-panel img{display:block; margin:0 auto; width:100%; max-width:420px}
+
+    .compare-box{max-width:520px; margin:14px auto 10px; text-align:left; background:var(--cmp-bg); border:1px solid var(--cmp-border); border-radius:12px; padding:14px 14px 10px; box-shadow:0 2px 10px rgba(0,0,0,.05)}
+    .compare-title{display:flex; align-items:center; gap:8px; font-weight:800; color:#0E3724; font-size:14px; margin-bottom:8px}
+    .compare-row{display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center; padding:6px 0; border-bottom:1px dashed var(--cmp-sep); font-size:14px; color:#3a3a3a}
+    .compare-row:last-child{border-bottom:none}
+    .compare-row .price{color:var(--accent); font-weight:800; font-size:14px}
+    .compare-highlight{margin-top:10px; background:var(--green-100); border:1px solid rgba(36,179,107,.25); color:var(--green-600); font-weight:800; font-size:14px; padding:10px 12px; border-radius:10px; display:flex; justify-content:space-between; align-items:center}
+
+    /* ====== SEÇÃO 5 ====== */
+    #sec-5{display:none; padding: 6px 0 50px}
+    .sec5-img{display:block; width:100%; max-width:420px; margin:0 auto 14px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.08)}
+
+    .offer-card{max-width:420px; margin:0 auto 16px; background:#fff; border:1px solid #eee; border-radius:16px; overflow:hidden; box-shadow:0 8px 22px rgba(0,0,0,.08); text-align:left}
+    .offer-ribbon{background:var(--green); color:#fff; font-weight:900; font-size:14px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center; letter-spacing:.3px; text-transform:uppercase}
+    .offer-ribbon .right{display:flex; flex-direction:column; align-items:flex-end; gap:2px; font-size:11px; font-weight:900}
+    .offer-ribbon .off{background:rgba(255,255,255,.16); padding:4px 8px; border-radius:999px}
+    .offer-ribbon .old{opacity:.8; text-decoration:line-through}
+    .offer-body{padding:14px 16px}
+    .offer-row{display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center}
+    .offer-title{font-weight:900; color:#222; font-size:16px; line-height:1.25}
+    .offer-sub{font-size:13px; color:#6AA77F; margin-top:2px}
+    .offer-price-col{text-align:right}
+    .offer-price{color:var(--red); font-weight:900; font-size:28px; line-height:1}
+    .offer-price-note{font-size:11px; color:#9aa5b1; margin-top:2px}
+    .warn{margin-top:12px; background:#FFF8E1; border:1px solid #FFECB3; color:#8A5A00; padding:10px 12px; border-radius:10px; font-size:12.5px; text-align:center}
+
+    /* Botão “Garantir minha vaga” (seção 5) */
+    .btn-purchase{
+      display:block; width:100%; max-width:460px; margin:16px auto 0;
+      padding:16px 28px; text-align:center; text-decoration:none;
+      background:#24B36B; color:#fff; font-weight:900; font-size:18px; text-transform:uppercase;
+      border-radius:999px; letter-spacing:.2px;
+      box-shadow:0 20px 34px rgba(36,179,107,.32);
+      transition:transform .08s ease, filter .08s ease;
+    }
+    .btn-purchase:hover{transform:translateY(-1px); filter:brightness(1.03)}
+
+    /* ====== SEÇÃO 6 (Garantia, Depoimentos, Jornada) ====== */
+    #sec-6{display:none; padding: 6px 0 50px}
+
+    .sec6-badges{display:block; margin:0 auto 10px; width:100%; max-width:160px}
+    .guarantee-title{font-weight:900; color:#111; font-size:18px; margin:4px 0 10px; display:flex; align-items:center; justify-content:center; gap:6px}
+    .guarantee-seal{display:block; margin:6px auto 12px; width:100%; max-width:120px}
+    .guarantee-box{max-width:520px; margin:0 auto 16px; background:var(--green-050); border:1px solid rgba(36,179,107,.35); color:#0E6E46; padding:14px 16px; border-radius:12px; text-align:left; line-height:1.45; box-shadow:0 2px 8px rgba(36,179,107,.08)}
+    .guarantee-box b{color:#0E6E46}
+
+    .rev-list{max-width:520px; margin:0 auto 18px; display:grid; gap:10px}
+    .rev-card{background:#fff; border:1px solid #eee; border-radius:12px; padding:12px 14px; text-align:left; box-shadow:0 2px 8px rgba(0,0,0,.06)}
+    .rev-stars{color:var(--star); font-size:13px; letter-spacing:1px; margin-bottom:4px}
+    .rev-name{font-weight:900; color:#2a2a2a; font-size:14px; margin-bottom:4px}
+    .rev-text{color:#555; font-size:14px}
+
+    /* === Jornada de Transformação (ajustada) === */
+    .journey{max-width:520px; margin:8px auto 14px; text-align:left}
+    .journey h3{font-size:18px; color:#111; font-weight:900; text-align:center; margin-bottom:12px}
+    .timeline{position:relative; margin-left:10px; padding-left:16px}
+    .timeline:before{content:""; position:absolute; left:2px; top:0; bottom:0; width:2px; background:#9DE1C2}
+    .tl-item{position:relative; margin:16px 0 18px}
+    .tl-item:before{content:""; position:absolute; left:-6px; top:10px; width:10px; height:10px; background:#24B36B; border-radius:50%}
+
+    .tl-head{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 6px}
+    .chip{display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-weight:900; font-size:12px; box-shadow:0 2px 6px rgba(36,179,107,.15)}
+    .chip--days{background:#24B36B; color:#fff; position:relative; margin-left:18px}
+    /* conector horizontal do eixo até o chip de dias */
+    .chip--days:before{content:""; position:absolute; left:-18px; top:50%; transform:translateY(-50%); width:16px; height:2px; background:#24B36B; border-radius:2px}
+    .chip--week{background:#EAF7EF; color:#0E6E46; border:1px solid #CFE9DA; box-shadow:0 1px 3px rgba(36,179,107,.08)}
+
+    .tl-desc{font-size:14px; color:#2b2b2b; line-height:1.55}
+    .tl-desc b{font-weight:900}
   </style>
+
+  <!-- Loader do VTurb -->
+  <script>
+    (function(){
+      var s=document.createElement("script");
+      s.src="https://scripts.converteai.net/761cd9ca-39b4-4739-8155-9dffeddad20c/players/689557c2b2b07c908fdc7759/v4/player.js";
+      s.async=true; document.head.appendChild(s);
+    })();
+  </script>
 </head>
 <body>
   <div class="container">
-    <!-- Section 1 -->
-    <img src="assets/images/logo.png" alt="Logo" class="logo">
-    <div class="progress-bar"><div class="fill"></div></div>
-    <h2 class="title"><span id="userName">Amigo</span>, seu protocolo foi gerado com sucesso!</h2>
-    <p class="subtitle">Por favor assista o vídeo abaixo para liberar</p>
-    <div class="video-wrapper">
-  <vturb-smartplayer id="vid-689557c2b2b07c908fdc7759"
-    style="display: block; margin: 0 auto; width: 100%; max-width: 400px;">
-  </vturb-smartplayer>
-</div>
+    <!-- ===== Seção 1 (ANTES do delay) ===== -->
+    <section id="sec-1">
+      <div class="logo-container"><img src="assets/images/logo.png" alt="Mounjaro de Pobre"></div>
+      <hr class="divider">
+      <h1 class="title">Ana seu protocolo foi gerado com sucesso!</h1>
+      <p class="subtitle">Por favor assista o vídeo abaixo para liberar</p>
+      <div class="video-container">
+        <vturb-smartplayer id="vid-689557c2b2b07c908fdc7759"></vturb-smartplayer>
+      </div>
+    </section>
+  </div>
 
+  <div class="container">
+    <!-- ===== Seção 2 ===== -->
+    <section id="sec-2">
+      <a href="https://pay.kiwify.com.br/OJB3Cb8" class="btn-large">QUERO A RECEITA!</a>
 
-    <!-- Delayed Sections -->
-    <div id="section2">
-      <!-- Section 2: CTA + Compare + Analysis -->
-      <a href="#" class="btn-main" id="section2-cta">QUERO A RECEITA!</a>
-      <div class="cards-compare">
-        <div class="card-compare red">
-          <h4>SEM O MOUNJARO DE POBRE</h4>
-          <img src="assets/images/sem-mp.jpg" alt="Sem Mounjaro de Pobre">
-          <p class="title">Metabolismo lento</p>
-          <p class="subtitle">Hormônios desregulados<br>Sem energia</p>
+      <div class="comparison-cards">
+        <div class="card card--no">
+          <h3>SEM O MOUNJARO DE POBRE</h3>
+          <img src="assets/images/no-image.png" alt="Sem o Mounjaro de Pobre">
+          <p class="card-title">Metabolismo lento</p>
+          <p class="card-desc">Hormônios desregulados Sem energia</p>
         </div>
-        <div class="card-compare green">
-          <h4>COM O MOUNJARO DE POBRE</h4>
-          <img src="assets/images/com-mp.jpg" alt="Com Mounjaro de Pobre">
-          <p class="title">Metabolismo acelerado</p>
-          <p class="subtitle">Hormônios ativos 24h<br>Muita energia</p>
+        <div class="card card--yes">
+          <h3>COM O MOUNJARO DE POBRE</h3>
+          <img src="assets/images/yes-image.png" alt="Com o Mounjaro de Pobre">
+          <p class="card-title card-title--green">Metabolismo acelerado</p>
+          <p class="card-desc card-desc--green">Hormônios ativos 24h Muita energia</p>
         </div>
       </div>
-      <div class="card-analysis">
-        <h3>Análise do Seu Metabolismo</h3>
-        <div class="bar-label"><span>Metabolismo Atual (SEM o Mounjaro de Pobre)</span><span class="value red">19%</span></div>
-        <div class="bar red"><div class="fill"></div></div>
-        <p class="small">Seu metabolismo está trabalhando apenas 19% da capacidade,<br>fazendo você se sentir cansada e sem energia.</p>
-        <div class="bar-label"><span>Metabolismo COM o Mounjaro de Pobre</span><span class="value green">100%</span></div>
-        <div class="bar green"><div class="fill"></div></div>
-        <p class="small">Com o Mounjaro de Pobre, seus hormônios emagrecedores<br>trabalham 24h queimando gordura automaticamente.</p>
+
+      <div class="metabolism-analysis">
+        <h2>Análise do Seu Metabolismo</h2>
+        <div class="bar-group">
+          <div>
+            <div class="label-row">
+              <span class="label label--red">Metabolismo Atual (SEM o Mounjaro de Pobre)</span>
+              <span class="pct">19%</span>
+            </div>
+            <div class="progress-outer"><div class="progress-inner red" style="width:19%"></div></div>
+            <p class="analysis-text">Seu metabolismo está trabalhando apenas 19% da capacidade, fazendo você se sentir cansada e sem energia.</p>
+          </div>
+          <div>
+            <div class="label-row">
+              <span class="label label--green">Metabolismo COM o Mounjaro de Pobre</span>
+              <span class="pct">100%</span>
+            </div>
+            <div class="progress-outer"><div class="progress-inner green" style="width:100%"></div></div>
+            <p class="analysis-text green">Com o Mounjaro de Pobre, seus hormônios emagrecedores trabalham 24h queimando gordura automaticamente.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="container">
+    <!-- ===== Seção 3 ===== -->
+    <section id="sec-3">
+      <div class="plan-card">
+        <h3 class="plan-title">Seu Plano Personalizado Mounjaro de Pobre</h3>
+
+        <p class="plan-sub--green">
+          Baseado nas suas informações pessoais, criamos um protocolo 100% personalizado para você perder
+          de 5 a 20kg nas próximas 3 semanas!
+        </p>
+        <p class="plan-sub--dark">
+          O plano contém as <b>medidas exatas dos ingredientes</b> para que você alcance o melhor
+          resultado possível no seu corpo, respeitando sua rotina e o que você gosta de comer.
+        </p>
+
+        <div style="text-align:center"><span class="pill">Você vai receber hoje:</span></div>
+
+        <div class="features">
+          <div class="feat"><span class="check"></span><div><div class="feat-title">Protocolo Mounjaro de Pobre Completo:</div><div class="feat-desc">Baseado em pesquisas de Harvard – a forma mais eficaz e segura de ativar seus hormônios emagrecedores de maneira simples e segura.</div></div></div>
+          <div class="feat"><span class="check"></span><div><div class="feat-title">Técnica da “Renovação Hormonal”:</div><div class="feat-desc">Usa os 7 principais hormônios do emagrecimento para queimar gordura da barriga, coxas, braços e cintura de uma vez só.</div></div></div>
+          <div class="feat"><span class="check"></span><div><div class="feat-title">Método “Exterminador de Doces”:</div><div class="feat-desc">Alivia o modo dentro do seu cérebro para se livrar dos desejos incontroláveis de comer doces e besteiras.</div></div></div>
+          <div class="feat"><span class="check"></span><div><div class="feat-title">Método do “Foguete Metabólico”:</div><div class="feat-desc">Usado por atletas de alto nível para aumentar energia e disposição em até 500% e acelerar o metabolismo ao extremo.</div></div></div>
+          <div class="feat"><span class="check"></span><div><div class="feat-title">Planilha de Acompanhamento:</div><div class="feat-desc">Saiba exatamente quanto você está evoluindo dia após dia.</div></div></div>
+        </div>
       </div>
 
-      <!-- Section 3 -->
-      <div class="card plan">
-        <h3><span class="plan-green">Seu Plano Personalizado</span> <strong>Mounjaro de Pobre</strong></h3>
-        <p class="plan-highlight">Baseado nas suas informações pessoais, criamos um protocolo <strong>100% personalizado</strong> para você perder de 5 a 20 kg nas próximas 3 semanas!</p>
-        <p>O plano contém as <strong>medidas exatas dos ingredientes</strong> para que ajam da melhor forma possível no seu corpo, respeitando sua rotina e o que você gosta de comer.</p>
-        <div class="plan-header">Você vai receber hoje:</div>
-        <ul class="plan-list">
-          <li><strong>Protocolo Mounjaro de Pobre Completo:</strong> Baseado em pesquisas de Harvard - a forma mais eficaz e segura de ativar seus hormônios emagrecedores sem perder músculos ou sentir fome.</li>
-          <li><strong>Técnica da "Renovação Hormonal":</strong> Usa os 7 principais hormônios do emagrecimento para queimar gordura da barriga, coxas, braços e cintura de uma vez só.</li>
-          <li><strong>Método "Exterminador de Doces":</strong> Ative o modo dentro do seu cérebro para se livrar dos desejos incontroláveis de comer doces e besteiras.</li>
-          <li><strong>Método do "Foguete Metabólico":</strong> Usado por atletas de alto nível para aumentar energia e disposição em até 500% e acelerar o metabolismo ao extremo.</li>
-          <li><strong>Planilha de Acompanhamento:</strong> Saiba exatamente quanto você está evoluindo dia após dia.</li>
+      <h3 class="bonus-head">
+        Garantindo Hoje, Você Ainda Recebe <span class="green">Vários Bônus Exclusivos de Presente!</span>
+      </h3>
+      <p class="bonus-note">(Valor total dos bônus: R$ 347,00)</p>
+
+      <div class="bonus-box">
+        <div class="bonus-chip"><span class="emoji">🎁</span><span>BÔNUS EXCLUSIVOS:</span></div>
+        <ul class="bonus-list">
+          <li>Técnica da “Renovação Hormonal” - 7 hormônios do emagrecimento</li>
+          <li>Truque de 5 minutos que ativa o efeito santana para sempre</li>
+          <li>Método para dormir 3x mais e perder 650 calorias extras por dia</li>
+          <li>“Segredo das três horas” para controlar glicose, pressão e colesterol</li>
+          <li>Método “Exterminador de Doces”: elimine desejos por besteiras</li>
+          <li>Os “Chás Noturnos” para combater ansiedade e depressão</li>
+          <li>Método “Foguete Metabólico” – aumente energia em até 500%</li>
+          <li>Técnica do “Relógio Invertido” para rejuvenescer 10 anos</li>
+          <li>Os “12 Alimentos do Amor” que turbam sua libido</li>
+          <li>…e muito mais.</li>
         </ul>
       </div>
+    </section>
+  </div>
 
-      <!-- Section 4 -->
-      <div class="card bonus">
-        <h3>Garantindo Hoje, Você Ainda Recebe <span style="color:#31c447;">Vários Bônus Exclusivos de Presente!</span></h3>
-        <p class="sub">(Valor total dos bônus: R$ 347,00)</p>
-        <ul>
-          <li>✨ Técnica da "Renovação Hormonal" - 7 hormônios do emagrecimento</li>
-          <li>✨ Truque de 5 minutos que evita o efeito sanfona para sempre</li>
-          <li>✨ Método para comer 3x menos e perder 650 calorias extras por dia</li>
-          <li>✨ Segredo das tribos para controlar glicose, pressão e colesterol</li>
-          <li>✨ Modo "Exterminador de Doces" - elimine desejos por besteiras</li>
-          <li>✨ Os "5 Chás Noturnos" para combater ansiedade e depressão</li>
-          <li>✨ Método "Foguete Metabólico" - aumente energia em até 500%</li>
-          <li>✨ Técnica do "Relógio Invertido" para parecer 10 anos mais jovem</li>
-          <li>✨ Os "12 Alimentos do Amor" que turbinam sua libido</li>
-          <li><em>E muito mais...</em></li>
-        </ul>
+  <div class="container">
+    <!-- ===== Seção 4 ===== -->
+    <section id="sec-4">
+      <div class="sec4-panel">
+        <img src="assets/images/sec4-offer.png" alt="Tudo que você vai receber hoje">
       </div>
 
-      <!-- Section 5 -->
-      <div class="card offer-vertical">
-        <img src="assets/images/section5.jpg" alt="Tudo que você vai receber hoje">
+      <div class="compare-box">
+        <div class="compare-title"><span class="ico">🧾</span><span>Compare os Custos para Emagrecer:</span></div>
+        <div class="compare-row"><span>• Ozempic (1 mês):</span><span class="price">R$ 3.000</span></div>
+        <div class="compare-row"><span>• Nutricionista particular:</span><span class="price">R$ 500/consulta</span></div>
+        <div class="compare-row"><span>• Academia + Personal:</span><span class="price">R$ 650/mês</span></div>
+        <div class="compare-row"><span>• Cirurgia bariátrica:</span><span class="price">R$ 20.000–50.000</span></div>
+        <div class="compare-highlight"><span>• Mounjaro de Pobre (COMPLETO):</span><span>R$ 37,90</span></div>
       </div>
-		<!-- Section 6 -->
-<div class="card cost-compare">
-  <h4>📊 Compare os Custos para Emagrecer:</h4>
-  <ul>
-    <li>• Ozempic (1 mês): <span class="cost">R$ 3.000</span></li>
-    <li>• Nutricionista particular: <span class="cost">R$ 500/consulta</span></li>
-    <li>• Academia + Personal: <span class="cost">R$ 600/mês</span></li>
-    <li>• Cirurgia bariátrica: <span class="cost">R$ 20.000–50.000</span></li>
-    <li class="highlighted">• Mounjaro de Pobre (COMPLETO): <span class="cost green">R$ 37,90</span></li>
-  </ul>
-</div>
 
-<!-- CTA principal -->
-<a href="#" class="btn-main">QUERO A RECEITA!</a>
-
-<!-- Garantia única -->
-<div class="icons-trust">
-  <img src="assets/images/garantia-total.png" alt="Compra Segura • Satisfação Garantida • Privacidade Protegida" style="width:100%; max-width:400px; height:auto; margin:0 auto 24px; display:block;">
-</div>
-
-<!-- Depoimentos (2 fotos, uma abaixo da outra) -->
-<img src="assets/images/depoimento1.jpg" alt="Depoimento 1" style="width:100%; border-radius:8px; margin-bottom:16px;">
-<img src="assets/images/depoimento2.jpg" alt="Depoimento 2" style="width:100%; border-radius:8px; margin-bottom:40px;">
-
-<!-- Oferta Especial -->
-<div class="special-offer" style="border-radius:8px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.05); margin-bottom:40px;">
-  <!-- Header verde -->
-  <div style="background:#31c447; color:#fff; padding:12px; font-size:16px; text-align:center;">
-    🔥 OFERTA ESPECIAL – APENAS HOJE!
+      <a href="https://pay.kiwify.com.br/OJB3Cb8" class="btn-large btn-wide">QUERO A RECEITA!</a>
+    </section>
   </div>
 
-  <!-- Conteúdo branco -->
-  <div style="background:#fff; display:flex; justify-content:space-between; align-items:center; padding:16px;">
-    <!-- Lado esquerdo: produto e bônus -->
-    <div>
-      <div style="font-size:18px; font-weight:700; margin-bottom:4px;">Mounjaro de Pobre</div>
-      <div style="font-size:14px; color:#27ae60;">Protocolo Completo + 4 Bônus</div>
-    </div>
-    <!-- Lado direito: desconto e preço -->
-    <div style="text-align:right;">
-      <div style="font-size:12px; color:#666; margin-bottom:4px;">
-        <span style="font-weight:700;">92% OFF</span>
-        <span style="text-decoration:line-through; margin-left:6px;">R$ 497,00</span>
+  <div class="container">
+    <!-- ===== Seção 5 ===== -->
+    <section id="sec-5">
+      <img class="sec5-img" src="assets/images/sec5-badges.png" alt="Selos de compra, garantia e privacidade">
+      <img class="sec5-img" src="assets/images/sec5-before-after-1.png" alt="Antes e depois">
+      <img class="sec5-img" src="assets/images/sec5-before-after-3.png" alt="Três antes e depois">
+
+      <div class="offer-card">
+        <div class="offer-ribbon"><div>🔥 OFERTA ESPECIAL - APENAS HOJE!</div><div class="right"><span class="off">92% OFF</span><span class="old">R$ 497,90</span></div></div>
+        <div class="offer-body">
+          <div class="offer-row">
+            <div><div class="offer-title">Mounjaro de Pobre</div><div class="offer-sub">Protocolo Completo + 4 Bônus</div></div>
+            <div class="offer-price-col"><div class="offer-price">R$ 37,90</div><div class="offer-price-note">pagamento único</div></div>
+          </div>
+          <div class="warn">Minha condição está <b>GARANTIDA</b> para não voltar ao preço normal. Aproveite <b>AGORA!</b></div>
+        </div>
       </div>
-      <div style="font-size:32px; color:#a01e1e; font-weight:700; line-height:1;">R$ 37,90</div>
-      <div style="font-size:12px; color:#777;">pagamento único</div>
-    </div>
+
+      <a href="https://pay.kiwify.com.br/OJB3Cb8" class="btn-purchase">💰 GARANTIR MINHA VAGA POR R$37,90</a>
+    </section>
   </div>
 
-  <!-- Aviso de urgência -->
-  <div style="background:#fff; padding:0 16px 16px; font-size:13px; color:#c0392b; text-align:center; line-height:1.4;">
-    ⚠️ Minha contadora está <strong>GRITANDO</strong> para eu voltar ao preço normal! Aproveite <strong>AGORA!</strong>
-  </div>
-		</div>
-	  <!-- Seção 7: CTA final, selo de confiança, garantia e depoimentos -->
-<a href="#" class="btn-main" style="margin:24px auto; max-width:360px; display:block;">
-  💰 GARANTIR MINHA VAGA POR R$ 37,90
-</a>
+  <div class="container">
+    <!-- ===== Seção 6 (final) ===== -->
+    <section id="sec-6">
+      <img class="sec6-badges" src="assets/images/sec6-badges.png" alt="Compra Segura • Satisfação Garantida • Privacidade Protegida">
+      <div class="guarantee-title">🛡️ Garantia Total de 30 Dias</div>
+      <img class="guarantee-seal" src="assets/images/guarantee-30days.png" alt="Selo de Garantia 30 Dias">
 
-<div style="text-align:center; margin-bottom:24px;">
-  <img src="assets/images/trust-all.png" alt="Compra Segura e Garantida" style="max-width:300px; width:100%; height:auto;">
-</div>
+      <div class="guarantee-box">
+        <p><b>Se você não emagrecer pelo menos 5kg em 30 dias…</b></p>
+        <p>Eu vou te devolver <b>cada centavo</b> que você pagou, sem fazer perguntas!</p>
+        <p><b>É 100% sem risco para você!</b> 💯</p>
+      </div>
 
-<h3 style="text-align:center; font-size:18px; margin:0 0 12px;">🛡️ Garantia Total de 30 Dias</h3>
-<img src="assets/images/garantia-30.png" alt="Garantia Total de 30 Dias" style="max-width:240px; width:100%; height:auto; margin:0 auto 12px; display:block;">
+      <div class="journey">
+        <h3>Sua Jornada de Transformação</h3>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-head">
+              <span class="chip chip--days">7 DIAS</span>
+              <span class="chip chip--week">Primeira Semana</span>
+            </div>
+            <div class="tl-desc">Você acorda e sente sua calça jeans escorregando pela cintura. Seu apetite já diminuiu significantemente.</div>
+          </div>
 
-<!-- Caixa verde de garantia centralizada -->
-<div style="
-    border: 2px solid #31c447;
-    background: #ffffff;
-    border-radius: 8px;
-    padding: 16px;
-    max-width: 580px;
-    margin: 0 auto 24px;
-    text-align: center;
-">
-  <p style="margin: 0 0 8px; font-size: 14px;">
-    Se você não emagrecer pelo menos 5 kg em 30 dias…
-  </p>
-  <p style="margin: 0 0 8px; font-size: 14px;">
-    Eu vou te devolver <strong>cada centavo</strong> que você pagou, sem fazer perguntas!
-  </p>
-  <p style="margin: 0; font-size: 14px;">
-    <strong style="color: #31c447;">É 100% sem risco para você! 💯</strong>
-  </p>
-</div>
+          <div class="tl-item">
+            <div class="tl-head">
+              <span class="chip chip--days">14 DIAS</span>
+              <span class="chip chip--week">Segunda Semana</span>
+            </div>
+            <div class="tl-desc">Todo mundo te para para dizer as mudanças: “Nossa, você está diferente… o que você fez?”</div>
+          </div>
 
-<h3 style="font-size:18px; text-align:center; margin:0 0 16px;">⭐ O que nossas clientes estão dizendo</h3>
+          <div class="tl-item">
+            <div class="tl-head">
+              <span class="chip chip--days">21 DIAS</span>
+              <span class="chip chip--week">Terceira Semana</span>
+            </div>
+            <div class="tl-desc">Suas amigas perguntam quanto você perdeu; você chega: “Gente, você fez lipo?” Elas: <b>INACREDITÁVEL!</b></div>
+          </div>
 
-<!-- Rafaela -->
-<div class="card-analysis" style="box-shadow:none; border:1px solid #e0e0e0; margin-bottom:16px;">
-  <p style="margin:0 0 8px;">⭐⭐⭐⭐⭐</p>
-  <p style="font-weight:700; margin:0 0 4px;">Rafaela Nascimento</p>
-  <p style="margin:0; font-style:italic;">“Muito bom! Recomendo, meu apetite diminuiu MUITO e já perdi 5 kg nos últimos 11 dias. Não conseguia nem imaginar que seria tão rápido!”</p>
-</div>
+          <div class="tl-item">
+            <div class="tl-head">
+              <span class="chip chip--days">28 DIAS</span>
+              <span class="chip chip--week">Quarta Semana</span>
+            </div>
+            <div class="tl-desc">Você posta aquela foto de biquíni que nunca teve coragem e recebe uma enxurrada de likes! 😍</div>
+          </div>
+        </div>
+      </div>
 
-<!-- Luana -->
-<div class="card-analysis" style="box-shadow:none; border:1px solid #e0e0e0; margin-bottom:16px;">
-  <p style="margin:0 0 8px;">⭐⭐⭐⭐⭐</p>
-  <p style="font-weight:700; margin:0 0 4px;">Luana Dias</p>
-  <p style="margin:0; font-style:italic;">“Recomendo muito! Estou usando há 2 semanas e estou com muito menos vontade de comer besteiras, perdi peso e desinchei bastante! Meu marido já percebeu a diferença! 👍”</p>
-</div>
-
-<!-- Andressa -->
-<div class="card-analysis" style="box-shadow:none; border:1px solid #e0e0e0; margin-bottom:16px;">
-  <p style="margin:0 0 8px;">⭐⭐⭐⭐⭐</p>
-  <p style="font-weight:700; margin:0 0 4px;">Andressa Soares</p>
-  <p style="margin:0; font-style:italic;">“Oi! Comprei hoje porque uma amiga me indicou… Estou impressionada com os resultados que ela teve! Já estou ansiosa para começar! 🥰”</p>
-</div>
-
-<!-- Beatriz -->
-<div class="card-analysis" style="box-shadow:none; border:1px solid #e0e0e0; margin-bottom:40px;">
-  <p style="margin:0 0 8px;">⭐⭐⭐⭐⭐</p>
-  <p style="font-weight:700; margin:0 0 4px;">Beatriz Mattos</p>
-  <p style="margin:0; font-style:italic;">“Muito bom! Baratinho e FUNCIONA mesmo! Já indiquei para várias amigas. Melhor investimento que já fiz! 💕”</p>
-</div>
-<!-- Seção 8: Jornada de Transformação -->
-<div style="background:#fff;border-radius:8px;padding:20px;box-shadow:0 2px 10px rgba(0,0,0,0.05);margin-bottom:40px;">
-  <h3 style="text-align:center;font-size:20px;color:#333;margin-bottom:24px;">
-    Sua Jornada de Transformação
-  </h3>
-
-  <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;">
-    <span style="background:#e8fdef;color:#31c447;font-weight:700;border-radius:12px;padding:4px 8px;font-size:12px;white-space:nowrap;">
-      7 DIAS
-    </span>
-    <div>
-      <strong style="color:#31c447;font-size:16px;">Primeira Semana</strong><br>
-      <span style="color:#555;font-size:14px;">
-        Você acorda e sente sua calça jeans escorregando pela cintura. Seu apetite já diminuiu significativamente.
-      </span>
-    </div>
+      <a href="https://pay.kiwify.com.br/OJB3Cb8" class="btn-large btn-wide">QUERO A RECEITA!</a>
+    </section>
   </div>
 
-  <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;">
-    <span style="background:#e8fdef;color:#31c447;font-weight:700;border-radius:12px;padding:4px 8px;font-size:12px;white-space:nowrap;">
-      14 DIAS
-    </span>
-    <div>
-      <strong style="color:#31c447;font-size:16px;">Segunda Semana</strong><br>
-      <span style="color:#555;font-size:14px;">
-        Seu marido te abraça por trás e sussurra: “Nossa, você está diferente... o que você fez?”
-      </span>
-    </div>
-  </div>
-
-  <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;">
-    <span style="background:#e8fdef;color:#31c447;font-weight:700;border-radius:12px;padding:4px 8px;font-size:12px;white-space:nowrap;">
-      21 DIAS
-    </span>
-    <div>
-      <strong style="color:#31c447;font-size:16px;">Terceira Semana</strong><br>
-      <span style="color:#555;font-size:14px;">
-        Suas amigas param a conversa quando você chega: “Gente, você fez lipo? Está IRRECONHECÍVEL!”
-      </span>
-    </div>
-  </div>
-
-  <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:24px;">
-    <span style="background:#e8fdef;color:#31c447;font-weight:700;border-radius:12px;padding:4px 8px;font-size:12px;white-space:nowrap;">
-      30 DIAS
-    </span>
-    <div>
-      <strong style="color:#31c447;font-size:16px;">Quarta Semana</strong><br>
-      <span style="color:#555;font-size:14px;">
-        Você posta aquela foto de biquíni que nunca teve coragem e recebe uma enxurrada de likes! ❤️
-      </span>
-    </div>
-  </div>
-
-  <a href="#" class="btn-main" style="margin:0 auto;max-width:360px;display:block;">
-    QUERO A RECEITA!
-  </a>
-</div>
-
-
-	
-</div>
-  </div>
-</div>
-
-	
-
-         </div>
-  </div>
+  <!-- Exibir seções após o delay (mantemos 0ms enquanto ajustamos) -->
   <script>
-    // Nome
-    const storedName = localStorage.getItem('userName') || localStorage.getItem('nome') || 'Amigo';
-    document.getElementById('userName').textContent = storedName;
-    // Delay
-    setTimeout(()=>{ document.getElementById('section2').style.display='block'; },268000);
+    setTimeout(function(){
+      ["sec-2","sec-3","sec-4","sec-5","sec-6"].forEach(function(id){
+        var el=document.getElementById(id);
+        if(el) el.style.display='block';
+      });
+    }, 268000);
   </script>
-	<script type="text/javascript">
-  (function() {
-    var s = document.createElement("script");
-    s.src = "https://scripts.converteai.net/761cd9ca-39b4-4739-8155-9dffeddad20c/players/689557c2b2b07c908fdc7759/v4/player.js";
-    s.async = true;
-    document.head.appendChild(s);
-  })();
-</script>
-
 </body>
 </html>

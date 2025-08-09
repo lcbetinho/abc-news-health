@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Upsell — Aviso Importante</title>
+<style>
+  :root{
+    --green:#24B36B; --green-700:#0E6E46; --green-100:#E8F5E9;
+    --red:#F44336; --orange:#FF7A3D; --card-shadow: 0 6px 22px rgba(0,0,0,.08);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:Arial,Helvetica,sans-serif;color:#222;background:#f4f6f8;line-height:1.55}
+  .container{width:92%;max-width:940px;margin:18px auto 28px}
+
+  .alert{background:var(--red);color:#fff;font-weight:900;letter-spacing:.3px;text-transform:uppercase;font-size:15px;text-align:center;border-radius:10px;padding:14px 16px;box-shadow:var(--card-shadow);display:flex;align-items:center;justify-content:center;gap:10px}
+  .headline-card{margin:16px 0;background:#fff;border:2px solid var(--orange);border-radius:10px;padding:18px 18px 16px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+  .headline{font-weight:900;color:#0f172a;text-transform:uppercase;font-size:20px;line-height:1.25;margin-bottom:8px}
+  .subline{font-size:14px;color:#606770}.subline b{color:var(--orange)}
+
+  .video-wrap{background:#000;border-radius:8px;overflow:hidden;box-shadow:var(--card-shadow)}
+  vturb-smartplayer{display:block!important;position:static!important;width:100%!important;max-width:100%!important;margin:0 auto!important}
+  .green-bar{height:8px;background:var(--green);border-radius:0 0 8px 8px}
+
+  .upsell-slot{display:none;margin:18px 0 0}
+
+  .guarantee{margin:18px 0 8px;border-radius:12px;overflow:hidden;box-shadow:var(--card-shadow)}
+  .g-head{background:var(--green);color:#fff;text-transform:uppercase;font-weight:900;letter-spacing:.3px;font-size:14px;text-align:center;padding:12px 10px}
+  .g-body{background:#fff;padding:18px}
+  .g-inner{background:#f8fafb;border:1px solid #eef1f4;border-radius:12px;padding:18px;text-align:center}
+  .shield{width:38px;height:38px;border-radius:50%;background:var(--green-100);display:inline-grid;place-items:center;margin:0 auto 10px;border:1px solid rgba(36,179,107,.25)}
+  .g-text{font-size:14px;color:#2c3440}.g-text b{color:#111}.g-text .hl{color:#0E6E46;font-weight:900;text-transform:uppercase}
+
+  .foot{text-align:center;color:#9aa5b1;font-size:12px;margin-top:16px}
+</style>
+
+<!-- VTurb loader -->
+<script>
+  (function(){
+    var s=document.createElement("script");
+    s.src="https://scripts.converteai.net/761cd9ca-39b4-4739-8155-9dffeddad20c/players/689752362c6ff9720dd732f1/v4/player.js";
+    s.async=true; document.head.appendChild(s);
+  })();
+</script>
+</head>
+<body>
+  <div class="container">
+
+    <div class="alert">⚠️ AVISO IMPORTANTE</div>
+
+    <div class="headline-card">
+      <div class="headline">Assista o vídeo ou você pode não ter resultados</div>
+      <div class="subline">No final você receberá um <b>Presente Exclusivo</b></div>
+    </div>
+
+    <div class="video-wrap">
+      <!-- VTurb vídeo -->
+      <vturb-smartplayer id="vid-689752362c6ff9720dd732f1"></vturb-smartplayer>
+      <div class="green-bar"></div>
+    </div>
+
+    <!-- ▼ Upsell aparece aqui DEPOIS DE 8 MINUTOS ▼ -->
+    <div id="upsell-slot" class="upsell-slot"></div>
+
+    <div class="guarantee">
+      <div class="g-head">Garantia Incondicional</div>
+      <div class="g-body">
+        <div class="g-inner">
+          <div class="shield">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3l7 3v5c0 5.25-3.25 8.88-7 10-3.75-1.12-7-4.75-7-10V6l7-3z" stroke="#24B36B" stroke-width="1.6" fill="none"/>
+              <path d="M9.2 12l2 2.1 3.8-4.1" stroke="#24B36B" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="g-text">Nós acreditamos tanto no nosso <b>Protocolo</b> que oferecemos <span class="hl">7 dias de garantia incondicional</span>.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr style="height:1px;background:#e8eaee;border:0;margin:16px 0 8px"/>
+    <div class="foot">Conteúdo exclusivo e confidencial</div>
+  </div>
+
+  <!-- Delay de 8 minutos para injetar o upsell Kiwify -->
+  <script>
+    const UPSELL_DELAY_MS = 480000; // 8 minutos
+
+    function showUpsell(){
+      const slot = document.getElementById('upsell-slot');
+      slot.innerHTML = `
+        <div style="text-align:center">
+          <button id="kiwify-upsell-trigger-gXskadH" style="background-color:#2ECC70;padding:12px 16px;cursor:pointer;color:#FFFFFF;font-weight:600;border-radius:4px;border:1px solid #2ECC70;font-size:20px;">Sim, eu aceito essa oferta especial!</button>
+          <div id="kiwify-upsell-cancel-trigger" style="margin-top:1rem;cursor:pointer;font-size:16px;text-decoration:underline;font-family:sans-serif;">Não, eu gostaria de recusar essa oferta</div>
+        </div>`;
+      slot.style.display = 'block';
+
+      // Variáveis globais esperadas pelo snippet Kiwify
+      window.nextUpsellURL = ""; // defina se houver próximo upsell
+      window.nextDownsellURL = "http://abcnewshealth.life/down";
+
+      // Carrega o script da Kiwify
+      const s = document.createElement('script');
+      s.src = "https://snippets.kiwify.com/upsell/upsell.min.js";
+      s.async = true;
+      document.body.appendChild(s);
+    }
+
+    setTimeout(showUpsell, UPSELL_DELAY_MS);
+  </script>
+</body>
+</html>
